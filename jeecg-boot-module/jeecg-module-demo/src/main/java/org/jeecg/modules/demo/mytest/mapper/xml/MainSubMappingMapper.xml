@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.demo.mytest.mapper.MainSubMappingMapper">
+    <select id="getSubIdsByMainId" parameterType="long" resultType="long">
+        SELECT sub_id
+        FROM main_sub_mapping
+        WHERE main_id = #{mainId}
+    </select>
+    <delete id="deleteByMainId" parameterType="long">
+        DELETE
+        FROM main_sub_mapping
+        WHERE main_id = #{mainId}
+    </delete>
+    <insert id="insertMappings" parameterType="list">
+        INSERT INTO main_sub_mapping(main_id, sub_id)
+        VALUES
+        <foreach collection="mappings" item="item" separator=",">
+            (#{item.mainId}, #{item.subId})
+        </foreach>
+    </insert>
+</mapper>
