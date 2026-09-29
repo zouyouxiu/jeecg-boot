@@ -1,9 +1,5 @@
 package org.jeecg.config.shiro.filters;
 
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
@@ -12,9 +8,15 @@ import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.system.util.JwtUtil;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.config.shiro.JwtToken;
+import org.jeecg.config.shiro.ignore.InMemoryIgnoreAuth;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @Description: 鉴权登录拦截器
@@ -47,11 +49,11 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         try {
             // 判断当前路径是不是注解了@IngoreAuth路径，如果是，则放开验证
-          /*  if (InMemoryIgnoreAuth.contains(((HttpServletRequest) request).getServletPath())) {
+            if (InMemoryIgnoreAuth.contains(((HttpServletRequest) request).getServletPath())) {
                 return true;
-            }*/
-            
-           // executeLogin(request, response);
+            }
+
+            executeLogin(request, response);
             return true;
         } catch (Exception e) {
             // 使用异常中的具体错误信息，保留"不允许同一账号多地同时登录"等具体提示
